@@ -37,8 +37,6 @@ async function signatureValue(
 ): Promise<string> {
   const digest = await digestValue(assertionData);
   const enc = new TextEncoder();
-  console.log("signature part");
-  console.log(signaturePart(digest));
   const signatureData = await crypto.subtle.sign(
     "RSASSA-PKCS1-v1_5",
     key,
@@ -53,8 +51,6 @@ function signaturePart(digest: string): string {
 
 async function digestValue(assertionData: AssertionData): Promise<string> {
   const enc = new TextEncoder();
-  console.log("digest part");
-  console.log(digestPart(assertionData));
   const digestData = await crypto.subtle.digest(
     "SHA-256",
     enc.encode(digestPart(assertionData)),
