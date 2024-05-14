@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/card";
 import { useSearchParams } from "react-router-dom";
 import moment from "moment";
+import { clsx } from "clsx";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email must be a well-formed email." }),
@@ -39,6 +40,9 @@ export function SSOPage() {
   const app = storeData.apps[appId!];
 
   const [searchParams] = useSearchParams();
+  const email = searchParams.get("email");
+  const firstName = searchParams.get("firstName");
+  const lastName = searchParams.get("lastName");
   const samlRequest = searchParams.get("SAMLRequest");
 
   const [sessionId, setSessionId] = useState("");
@@ -71,9 +75,9 @@ export function SSOPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
+      email: email ?? "",
+      firstName: firstName ?? "",
+      lastName: lastName ?? "",
     },
   });
 
@@ -95,6 +99,8 @@ export function SSOPage() {
     inputRef.current!.value = await encodeAssertion(key, {
       idpEntityId: `https://dummyidp.com/apps/${app.id}`,
       subjectId: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
       spEntityId: app.spEntityId,
       sessionId: sessionId,
       now: now.format(),
@@ -134,7 +140,7 @@ export function SSOPage() {
                   <FormItem className="col-span-2">
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} />
+                      <Input disabled={!!email} type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,7 +154,7 @@ export function SSOPage() {
                   <FormItem className="col-span-1">
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input disabled={!!firstName} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +168,7 @@ export function SSOPage() {
                   <FormItem className="col-span-1">
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input disabled={!!lastName} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,7 +176,14 @@ export function SSOPage() {
               />
 
               <div className="col-span-2 flex justify-end">
-                <Button>Log on</Button>
+                <Button
+                  className={clsx(
+                    email &&
+                      "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-xl",
+                  )}
+                >
+                  Log on
+                </Button>
               </div>
             </form>
           </Form>

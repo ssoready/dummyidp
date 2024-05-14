@@ -1,6 +1,8 @@
 export interface AssertionData {
   idpEntityId: string;
   subjectId: string;
+  firstName: string;
+  lastName: string;
   sessionId: string;
   now: string;
   expire: string;
@@ -28,7 +30,7 @@ function signedAssertion(
   digest: string,
   signature: string,
 ): string {
-  return `<saml2p:Response xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"><saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>${digest}</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>${signature}</ds:SignatureValue></ds:Signature><saml2:Issuer>${assertionData.idpEntityId}</saml2:Issuer><saml2:Subject><saml2:NameID>${assertionData.subjectId}</saml2:NameID><saml2:SubjectConfirmation><saml2:SubjectConfirmationData InResponseTo="${assertionData.sessionId}"></saml2:SubjectConfirmationData></saml2:SubjectConfirmation></saml2:Subject><saml2:Conditions NotBefore="${assertionData.now}" NotOnOrAfter="${assertionData.expire}"><saml2:AudienceRestriction><saml2:Audience>${assertionData.spEntityId}</saml2:Audience></saml2:AudienceRestriction></saml2:Conditions></saml2:Assertion></saml2p:Response>`;
+  return `<saml2p:Response xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"><saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>${digest}</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>${signature}</ds:SignatureValue></ds:Signature><saml2:Issuer>${assertionData.idpEntityId}</saml2:Issuer><saml2:Subject><saml2:NameID>${assertionData.subjectId}</saml2:NameID><saml2:SubjectConfirmation><saml2:SubjectConfirmationData InResponseTo="${assertionData.sessionId}"></saml2:SubjectConfirmationData></saml2:SubjectConfirmation></saml2:Subject><saml2:Conditions NotBefore="${assertionData.now}" NotOnOrAfter="${assertionData.expire}"><saml2:AudienceRestriction><saml2:Audience>${assertionData.spEntityId}</saml2:Audience></saml2:AudienceRestriction></saml2:Conditions><saml2:AttributeStatement><saml2:Attribute Name="firstName"><saml2:AttributeValue>${assertionData.firstName}</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="lastName"><saml2:AttributeValue>${assertionData.lastName}</saml2:AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion></saml2p:Response>`;
 }
 
 async function signatureValue(
@@ -59,7 +61,7 @@ async function digestValue(assertionData: AssertionData): Promise<string> {
 }
 
 function digestPart(assertionData: AssertionData): string {
-  return `<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"><saml2:Issuer>${assertionData.idpEntityId}</saml2:Issuer><saml2:Subject><saml2:NameID>${assertionData.subjectId}</saml2:NameID><saml2:SubjectConfirmation><saml2:SubjectConfirmationData InResponseTo="${assertionData.sessionId}"></saml2:SubjectConfirmationData></saml2:SubjectConfirmation></saml2:Subject><saml2:Conditions NotBefore="${assertionData.now}" NotOnOrAfter="${assertionData.expire}"><saml2:AudienceRestriction><saml2:Audience>${assertionData.spEntityId}</saml2:Audience></saml2:AudienceRestriction></saml2:Conditions></saml2:Assertion>`;
+  return `<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"><saml2:Issuer>${assertionData.idpEntityId}</saml2:Issuer><saml2:Subject><saml2:NameID>${assertionData.subjectId}</saml2:NameID><saml2:SubjectConfirmation><saml2:SubjectConfirmationData InResponseTo="${assertionData.sessionId}"></saml2:SubjectConfirmationData></saml2:SubjectConfirmation></saml2:Subject><saml2:Conditions NotBefore="${assertionData.now}" NotOnOrAfter="${assertionData.expire}"><saml2:AudienceRestriction><saml2:Audience>${assertionData.spEntityId}</saml2:Audience></saml2:AudienceRestriction></saml2:Conditions><saml2:AttributeStatement><saml2:Attribute Name="firstName"><saml2:AttributeValue>${assertionData.firstName}</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="lastName"><saml2:AttributeValue>${assertionData.lastName}</saml2:AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion>`;
 }
 
 function arrayBufferToBase64(buffer: ArrayBuffer): string {

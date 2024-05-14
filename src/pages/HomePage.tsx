@@ -9,18 +9,17 @@ export function HomePage() {
   const navigate = useNavigate();
   const handleCreateApp = () => {
     const id = uuidv4();
-    const newState = {
+    setStoreData({
       ...storeData,
       apps: {
         ...storeData.apps,
         [id]: {
           id,
           spAcsUrl: "",
+          spEntityId: "",
         },
       },
-    };
-    console.log("want new state", newState);
-    setStoreData(newState);
+    });
 
     navigate(`/apps/${id}`);
   };
