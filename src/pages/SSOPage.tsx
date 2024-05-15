@@ -106,6 +106,7 @@ export function SSOPage() {
       now: now.format(),
       expire: expire.format(),
     });
+    inputRef.current!.form!.action = app.spAcsUrl;
     inputRef.current!.form!.submit();
   }
 
@@ -113,10 +114,7 @@ export function SSOPage() {
 
   return (
     <>
-      <form
-        method="post"
-        action="http://localhost:8080/saml/saml_conn_e4wryo0hq30mcrzc32b67otha/acs"
-      >
+      <form method="post">
         <input type="hidden" name="SAMLResponse" ref={inputRef} />
       </form>
 
@@ -140,8 +138,20 @@ export function SSOPage() {
                   <FormItem className="col-span-2">
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input disabled={!!email} type="email" {...field} />
+                      <Input type="email" {...field} />
                     </FormControl>
+
+                    {email && (
+                      <FormDescription>
+                        You'll want to keep this as a{" "}
+                        <span className="font-semibold">
+                          {email.split("@")[1]}
+                        </span>{" "}
+                        email address, otherwise your login will probably be
+                        rejected by {new URL(app.spAcsUrl).hostname}.
+                      </FormDescription>
+                    )}
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -154,7 +164,7 @@ export function SSOPage() {
                   <FormItem className="col-span-1">
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input disabled={!!firstName} {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -168,16 +178,17 @@ export function SSOPage() {
                   <FormItem className="col-span-1">
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input disabled={!!lastName} {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <div className="col-span-2 flex justify-end">
+              <div className="mt-4 col-span-2">
                 <Button
                   className={clsx(
+                    "w-full",
                     email &&
                       "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-xl",
                   )}
