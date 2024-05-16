@@ -10,6 +10,7 @@ export function InstantSetupPage() {
   const appId = searchParams.get("appId")!;
   const spAcsUrl = searchParams.get("spAcsUrl")!;
   const spEntityId = searchParams.get("spEntityId")!;
+  const requiredDomain = searchParams.get("requiredDomain")!;
   const email = searchParams.get("email")!;
   const firstName = searchParams.get("firstName")!;
   const lastName = searchParams.get("lastName")!;
@@ -24,6 +25,7 @@ export function InstantSetupPage() {
           id: appId,
           spAcsUrl,
           spEntityId,
+          requiredDomain,
         },
       },
     });

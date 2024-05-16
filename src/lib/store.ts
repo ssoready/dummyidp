@@ -8,6 +8,7 @@ interface App {
   id: string;
   spAcsUrl: string;
   spEntityId: string;
+  requiredDomain: string;
 }
 
 export function useStore(): [StoreData, (_: StoreData) => void] {

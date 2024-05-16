@@ -29,7 +29,7 @@ import moment from "moment";
 import { clsx } from "clsx";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Email must be a well-formed email." }),
+  email: z.string().min(1, { message: "Email is required." }),
   firstName: z.string(),
   lastName: z.string(),
 });
@@ -98,7 +98,7 @@ export function SSOPage() {
 
     inputRef.current!.value = await encodeAssertion(key, {
       idpEntityId: `https://dummyidp.com/apps/${app.id}`,
-      subjectId: values.email,
+      subjectId: `${values.email}@${app.requiredDomain}`,
       firstName: values.firstName,
       lastName: values.lastName,
       spEntityId: app.spEntityId,
@@ -138,19 +138,13 @@ export function SSOPage() {
                   <FormItem className="col-span-2">
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} />
+                      <div className="flex">
+                        <Input className="rounded-r-none" {...field} />
+                        <span className="inline-flex text-sm items-center rounded-r-md border border-l-0 border-input px-3 text-muted-foreground">
+                          @{app.requiredDomain}
+                        </span>
+                      </div>
                     </FormControl>
-
-                    {email && (
-                      <FormDescription>
-                        You'll want to keep this as a{" "}
-                        <span className="font-semibold">
-                          {email.split("@")[1]}
-                        </span>{" "}
-                        email address, otherwise your login will probably be
-                        rejected by {new URL(app.spAcsUrl).hostname}.
-                      </FormDescription>
-                    )}
 
                     <FormMessage />
                   </FormItem>
