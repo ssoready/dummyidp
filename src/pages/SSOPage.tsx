@@ -93,7 +93,7 @@ export function SSOPage() {
       ["sign"],
     );
 
-    const now = moment(new Date());
+    const now = moment(new Date()).add(-1, "hour");
     const expire = moment(new Date()).add(1, "hour");
 
     inputRef.current!.value = await encodeAssertion(key, {
