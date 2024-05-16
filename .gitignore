@@ -1,3 +1,5 @@
 /node_modules
 /public
 !/public/index.html
+!/public/logo.png
+!/public/wordart.png
