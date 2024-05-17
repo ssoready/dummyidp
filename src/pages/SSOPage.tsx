@@ -151,7 +151,11 @@ export function SSOPage() {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div className="flex">
-                          <Input className="rounded-r-none" {...field} />
+                          <Input
+                            className="rounded-r-none"
+                            placeholder="wouldyoulikehelp"
+                            {...field}
+                          />
                           <span className="inline-flex text-sm items-center rounded-r-md border border-l-0 border-input px-3 text-muted-foreground">
                             @{app.requiredDomain}
                           </span>
@@ -170,7 +174,7 @@ export function SSOPage() {
                     <FormItem className="col-span-1">
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Clippy" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -184,7 +188,7 @@ export function SSOPage() {
                     <FormItem className="col-span-1">
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="the Paperclip" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
