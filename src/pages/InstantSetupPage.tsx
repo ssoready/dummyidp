@@ -30,10 +30,15 @@ export function InstantSetupPage() {
       },
     });
 
-    navigate({
-      pathname: `/apps/${appId}/sso`,
-      search: createSearchParams({ email, firstName, lastName }).toString(),
-    });
+    navigate(
+      {
+        pathname: `/apps/${appId}/sso`,
+        search: createSearchParams({ email, firstName, lastName }).toString(),
+      },
+      {
+        replace: true,
+      },
+    );
   }, [appId, spAcsUrl, spEntityId]);
 
   return <></>;
