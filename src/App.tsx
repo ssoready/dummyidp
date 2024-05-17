@@ -11,10 +11,10 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/instant-setup" element={<InstantSetupPage />} />
+        <Route path="/apps/:appId/sso" element={<SSOPage />} />
         <Route path="/" element={<Page />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/apps/:appId" element={<ViewAppPage />} />
-          <Route path="/apps/:appId/sso" element={<SSOPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

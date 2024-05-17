@@ -27,6 +27,7 @@ import {
 import { useSearchParams } from "react-router-dom";
 import moment from "moment";
 import { clsx } from "clsx";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   email: z.string().min(1, { message: "Email is required." }),
@@ -82,118 +83,148 @@ export function SSOPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>, e: any) {
-    const key = await window.crypto.subtle.importKey(
-      "jwk",
-      GLOBAL_NONSECURE_KEY,
-      {
-        name: "RSASSA-PKCS1-v1_5",
-        hash: "SHA-256",
-      },
-      true,
-      ["sign"],
-    );
+    setLoading(true);
 
-    const now = moment(new Date()).add(-1, "hour");
-    const expire = moment(new Date()).add(1, "hour");
+    setTimeout(async () => {
+      const key = await window.crypto.subtle.importKey(
+        "jwk",
+        GLOBAL_NONSECURE_KEY,
+        {
+          name: "RSASSA-PKCS1-v1_5",
+          hash: "SHA-256",
+        },
+        true,
+        ["sign"],
+      );
 
-    inputRef.current!.value = await encodeAssertion(key, {
-      idpEntityId: `https://dummyidp.com/apps/${app.id}`,
-      subjectId: `${values.email}@${app.requiredDomain}`,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      spEntityId: app.spEntityId,
-      sessionId: sessionId,
-      now: now.format(),
-      expire: expire.format(),
-    });
-    inputRef.current!.form!.action = app.spAcsUrl;
-    inputRef.current!.form!.submit();
+      const now = moment(new Date()).add(-1, "hour");
+      const expire = moment(new Date()).add(1, "hour");
+
+      inputRef.current!.value = await encodeAssertion(key, {
+        idpEntityId: `https://dummyidp.com/apps/${app.id}`,
+        subjectId: `${values.email}@${app.requiredDomain}`,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        spEntityId: app.spEntityId,
+        sessionId: sessionId,
+        now: now.format(),
+        expire: expire.format(),
+      });
+      inputRef.current!.form!.action = app.spAcsUrl;
+      inputRef.current!.form!.submit();
+    }, 1000);
   }
 
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <>
+    <div className="flex w-screen h-screen">
       <form method="post">
         <input type="hidden" name="SAMLResponse" ref={inputRef} />
       </form>
 
-      <Card className="mx-auto max-w-xl">
-        <CardHeader>
-          <CardTitle>Log on</CardTitle>
-          <CardDescription>
-            Enter some details about who you want DummyIDP to log you in as.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="grid grid-cols-2 gap-4"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="col-span-2">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <div className="flex">
-                        <Input className="rounded-r-none" {...field} />
-                        <span className="inline-flex text-sm items-center rounded-r-md border border-l-0 border-input px-3 text-muted-foreground">
-                          @{app.requiredDomain}
-                        </span>
-                      </div>
-                    </FormControl>
+      <div className="m-auto max-w-xl relative">
+        {loading && (
+          <div className="absolute bg-black/80 inset-0 flex justify-center items-center z-10 dark text-white">
+            <img className="m-auto" alt="loading" src="/loading.gif" />
+          </div>
+        )}
+        <Card>
+          <CardHeader>
+            <CardTitle>Log on</CardTitle>
+            <CardDescription>
+              Enter some details about who you want DummyIDP to say you are.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid grid-cols-2 gap-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="col-span-2">
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <div className="flex">
+                          <Input className="rounded-r-none" {...field} />
+                          <span className="inline-flex text-sm items-center rounded-r-md border border-l-0 border-input px-3 text-muted-foreground">
+                            @{app.requiredDomain}
+                          </span>
+                        </div>
+                      </FormControl>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem className="col-span-1">
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem className="col-span-1">
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="mt-4 col-span-2">
-                <Button
-                  className={clsx(
-                    "w-full",
-                    email &&
-                      "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-xl",
+                      <FormMessage />
+                    </FormItem>
                   )}
-                >
-                  Log on
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </>
+                />
+
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem className="col-span-1">
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem className="col-span-1">
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="mt-4 col-span-2">
+                  <Button
+                    className={clsx(
+                      "w-full",
+                      email &&
+                        "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-xl",
+                    )}
+                  >
+                    Log on
+                  </Button>
+                </div>
+              </form>
+            </Form>
+
+            <Separator className="my-8" />
+
+            <div className="text-xs text-muted-foreground space-y-2">
+              <p>
+                DummyIDP is a fake identity provider. It's a dummy stand-in for
+                something like Okta, Google Workspace, or Microsoft Entra.
+              </p>
+              <p>
+                In the real world, your customers would never see or interact
+                with DummyIDP in any way. In the real world, your customers
+                would see their own IDP, not this fake one.
+              </p>
+              <p>
+                We made DummyIDP because there doesn't exist any free, no-hassle
+                SAML Identity Provider out there that developers can test with.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
