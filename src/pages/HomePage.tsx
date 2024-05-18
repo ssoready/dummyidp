@@ -17,6 +17,7 @@ export function HomePage() {
           id,
           spAcsUrl: "",
           spEntityId: "",
+          requiredDomain: "",
         },
       },
     });
