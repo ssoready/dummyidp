@@ -46,6 +46,9 @@ const formSchema = z.object({
     .string()
     .url({ message: "Service Provider ACS URL must be a valid URL." }),
   spEntityId: z.string(),
+  requiredDomain: z
+    .string()
+    .min(1, { message: "You must supply a required domain." }),
 });
 
 export function ViewAppPage() {
@@ -58,6 +61,7 @@ export function ViewAppPage() {
     defaultValues: {
       spAcsUrl: app.spAcsUrl,
       spEntityId: app.spEntityId,
+      requiredDomain: app?.requiredDomain || "",
     },
   });
 
@@ -74,6 +78,7 @@ export function ViewAppPage() {
           ...storeData.apps[app.id],
           spAcsUrl: values.spAcsUrl,
           spEntityId: values.spEntityId,
+          requiredDomain: values.requiredDomain,
         },
       },
     });
@@ -151,6 +156,23 @@ export function ViewAppPage() {
                         </FormItem>
                       )}
                     />
+                    <FormField
+                      control={form.control}
+                      name="requiredDomain"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Domain</FormLabel>
+                          <FormControl>
+                            <Input placeholder="example.com" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            When doing SSO logins from this app, this is the
+                            domain your email must come from.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <Button type="submit">Submit</Button>
@@ -172,6 +194,10 @@ export function ViewAppPage() {
               Service Provider Entity ID
             </div>
             <div className="text-sm col-span-3">{app.spEntityId}</div>
+            <div className="text-sm col-span-1 text-muted-foreground">
+              Email Domain
+            </div>
+            <div className="text-sm col-span-3">{app.requiredDomain}</div>
           </div>
         </CardContent>
       </Card>
