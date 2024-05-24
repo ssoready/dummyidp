@@ -4,3 +4,6 @@
 !/public/logo.png
 !/public/wordart.png
 !/public/loading.gif
+
+# Local Netlify folder
+.netlify
