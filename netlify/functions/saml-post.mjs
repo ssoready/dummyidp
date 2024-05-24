@@ -1,6 +1,4 @@
-import type { Config, Context } from "@netlify/functions"
-
-export default async (req: Request, context: Context) => {
+export default async (req, context) => {
     const formData = await req.formData()
 
     let query = ""
@@ -16,6 +14,6 @@ export default async (req: Request, context: Context) => {
     })
 }
 
-export const config: Config = {
+export const config = {
     path: "/saml-post/:appId"
 };
