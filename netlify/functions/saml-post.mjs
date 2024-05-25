@@ -1,4 +1,6 @@
+console.log("test1")
 export default async (req, context) => {
+    console.log("test2")
     const formData = await req.formData()
 
     let query = ""
