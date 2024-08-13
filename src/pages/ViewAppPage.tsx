@@ -239,7 +239,7 @@ export function ViewAppPage() {
               Identity Provider Sign-on URL
             </div>
             <div className="text-sm col-span-3">
-              https://dummyidp.com/apps/{app.id}/sso
+              https://sso.dummyidp.com/apps/{app.id}/sso
             </div>
             <div className="text-sm col-span-1 text-muted-foreground">
               Identity Provider Entity ID
