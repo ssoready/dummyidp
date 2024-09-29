@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "next"
+    "dev": "next",
+    "build": "next build"
   },
   "dependencies": {
     "next": "^14.2.13",
@@ -10,6 +11,7 @@
     "@types/node": "22.7.4",
     "@types/react": "18.3.10",
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
     "typescript": "5.6.2"
