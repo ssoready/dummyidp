@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,7 +13,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useStore } from "@/lib/store";
+import { useGetApp, useStore, useUpdateApp, App } from "@/lib/store";
 import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,50 +41,16 @@ import {
 import { GLOBAL_NONSECURE_CERT } from "@/key";
 import { Link } from "react-router-dom";
 
-const formSchema = z.object({
-  spAcsUrl: z
-    .string()
-    .url({ message: "Service Provider ACS URL must be a valid URL." }),
-  spEntityId: z.string(),
-  requiredDomain: z
-    .string()
-    .min(1, { message: "You must supply a required domain." }),
-});
-
 export function ViewAppPage() {
-  const [storeData, setStoreData] = useStore();
+  // const [storeData, setStoreData] = useStore();
   const { appId } = useParams();
-  const app = storeData.apps[appId!];
+  // const app = storeData.apps[appId!];
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      spAcsUrl: app.spAcsUrl,
-      spEntityId: app.spEntityId,
-      requiredDomain: app?.requiredDomain || "",
-    },
-  });
+  const { data: app } = useGetApp(appId!);
 
-  const [open, setOpen] = useState(false);
-
-  function onSubmit(values: z.infer<typeof formSchema>, e: any) {
-    e.preventDefault();
-
-    setStoreData({
-      ...storeData,
-      apps: {
-        ...storeData.apps,
-        [app.id]: {
-          ...storeData.apps[app.id],
-          spAcsUrl: values.spAcsUrl,
-          spEntityId: values.spEntityId,
-          requiredDomain: values.requiredDomain,
-        },
-      },
-    });
-
-    setOpen(false);
-  }
+  const downloadCertificateURL = useMemo(() => {
+    return URL.createObjectURL(new Blob([GLOBAL_NONSECURE_CERT]));
+  }, []);
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -96,7 +62,7 @@ export function ViewAppPage() {
                 <CardTitle>App</CardTitle>
 
                 <span className="text-xs font-mono bg-gray-100 py-1 px-2 rounded-sm">
-                  {app.id}
+                  {app?.id}
                 </span>
               </div>
               <CardDescription>
@@ -104,83 +70,8 @@ export function ViewAppPage() {
                 app/tile in Okta, Google Workspace, Microsoft Entra, etc.
               </CardDescription>
             </div>
-            <AlertDialog open={open} onOpenChange={setOpen}>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline">Edit</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Edit app</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Edit the settings associated with this dummy SSO app.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                  >
-                    <FormField
-                      control={form.control}
-                      name="spAcsUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Service Provider ACS URL</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            This tells DummyIDP where to redirect people when
-                            they want to log in to this app. Okta calls this a
-                            "Single sign-on URL".
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="spEntityId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Service Provider Entity ID</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            This tells DummyIDP what the "ID" of the app is when
-                            doing a SAML sign-on. Okta calls this "Audience URI
-                            (SP Entity ID)".
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="requiredDomain"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email Domain</FormLabel>
-                          <FormControl>
-                            <Input placeholder="example.com" {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            When doing SSO logins from this app, this is the
-                            domain your email must come from.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <Button type="submit">Submit</Button>
-                    </AlertDialogFooter>
-                  </form>
-                </Form>
-              </AlertDialogContent>
-            </AlertDialog>
+
+            {app && <EditAppButton app={app} />}
           </div>
         </CardHeader>
 
@@ -189,15 +80,15 @@ export function ViewAppPage() {
             <div className="text-sm col-span-1 text-muted-foreground">
               Service Provider ACS URL
             </div>
-            <div className="text-sm col-span-3">{app.spAcsUrl}</div>
+            <div className="text-sm col-span-3">{app?.spAcsUrl}</div>
             <div className="text-sm col-span-1 text-muted-foreground">
               Service Provider Entity ID
             </div>
-            <div className="text-sm col-span-3">{app.spEntityId}</div>
+            <div className="text-sm col-span-3">{app?.spEntityId}</div>
             <div className="text-sm col-span-1 text-muted-foreground">
               Email Domain
             </div>
-            <div className="text-sm col-span-3">{app.requiredDomain}</div>
+            <div className="text-sm col-span-3">{app?.requiredDomain}</div>
           </div>
         </CardContent>
       </Card>
@@ -213,13 +104,13 @@ export function ViewAppPage() {
 
         <CardContent>
           <Button asChild>
-            <Link to={`/apps/${app.id}/sso`}>Sign on</Link>
+            <Link to={`/apps/${app?.id}/sso`}>Sign on</Link>
           </Button>
 
           <p className="mt-8 text-sm text-muted-foreground">
             This will perform a SAML IDP-initiated flow, meaning you'll be
             redirected to the Service Provider ACS URL, which you've configured
-            as <span className="font-semibold">{app.spAcsUrl}</span>.
+            as <span className="font-semibold">{app?.spAcsUrl}</span>.
           </p>
         </CardContent>
       </Card>
@@ -239,13 +130,13 @@ export function ViewAppPage() {
               Identity Provider Sign-on URL
             </div>
             <div className="text-sm col-span-3">
-              https://sso.dummyidp.com/apps/{app.id}/sso
+              {process.env.DUMMYIDP_API_URL}/saml-init/{app?.id}
             </div>
             <div className="text-sm col-span-1 text-muted-foreground">
               Identity Provider Entity ID
             </div>
             <div className="text-sm col-span-3">
-              https://dummyidp.com/apps/{app.id}
+              https://dummyidp.com/apps/{app?.id}
             </div>
             <div className="text-sm col-span-4 text-muted-foreground">
               Certificate
@@ -258,8 +149,144 @@ export function ViewAppPage() {
               </div>
             </div>
           </div>
+
+          <Button asChild>
+            <a
+              href={downloadCertificateURL}
+              download="DummyIDP Certificate.crt"
+            >
+              Download Certificate
+            </a>
+          </Button>
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+const formSchema = z.object({
+  spAcsUrl: z
+    .string()
+    .url({ message: "Service Provider ACS URL must be a valid URL." }),
+  spEntityId: z.string(),
+  requiredDomain: z
+    .string()
+    .min(1, { message: "You must supply a required domain." }),
+});
+
+function EditAppButton({ app }: { app: App }) {
+  const updateApp = useUpdateApp();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      spAcsUrl: app?.spAcsUrl,
+      spEntityId: app?.spEntityId,
+      requiredDomain: app?.requiredDomain || "",
+    },
+  });
+
+  const [open, setOpen] = useState(false);
+
+  async function onSubmit(values: z.infer<typeof formSchema>, e: any) {
+    e.preventDefault();
+
+    await updateApp.mutateAsync({
+      id: app.id!,
+      spAcsUrl: values.spAcsUrl,
+      spEntityId: values.spEntityId,
+      requiredDomain: values.requiredDomain,
+    });
+
+    // setStoreData({
+    //   ...storeData,
+    //   apps: {
+    //     ...storeData.apps,
+    //     [app.id]: {
+    //       ...storeData.apps[app.id],
+    //       spAcsUrl: values.spAcsUrl,
+    //       spEntityId: values.spEntityId,
+    //       requiredDomain: values.requiredDomain,
+    //     },
+    //   },
+    // });
+
+    setOpen(false);
+  }
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline">Edit</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Edit app</AlertDialogTitle>
+          <AlertDialogDescription>
+            Edit the settings associated with this dummy SSO app.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="spAcsUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Service Provider ACS URL</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This tells DummyIDP where to redirect people when they want
+                    to log in to this app. Okta calls this a "Single sign-on
+                    URL".
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="spEntityId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Service Provider Entity ID</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This tells DummyIDP what the "ID" of the app is when doing a
+                    SAML sign-on. Okta calls this "Audience URI (SP Entity ID)".
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="requiredDomain"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Domain</FormLabel>
+                  <FormControl>
+                    <Input placeholder="example.com" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    When doing SSO logins from this app, this is the domain your
+                    email must come from.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button type="submit">Submit</Button>
+            </AlertDialogFooter>
+          </form>
+        </Form>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

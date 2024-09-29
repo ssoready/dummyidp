@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { encodeAssertion } from "@/lib/saml";
 import { GLOBAL_NONSECURE_KEY } from "@/key";
-import { useStore } from "@/lib/store";
+import { useGetApp, useStore } from "@/lib/store";
 import { useParams } from "react-router";
 import { z } from "zod";
 import {
@@ -36,9 +36,8 @@ const formSchema = z.object({
 });
 
 export function SSOPage() {
-  const [storeData, _] = useStore();
   const { appId } = useParams();
-  const app = storeData.apps[appId!];
+  const { data: app } = useGetApp(appId!);
 
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
@@ -101,16 +100,16 @@ export function SSOPage() {
       const expire = moment(new Date()).add(1, "hour");
 
       inputRef.current!.value = await encodeAssertion(key, {
-        idpEntityId: `https://dummyidp.com/apps/${app.id}`,
-        subjectId: `${values.email}@${app.requiredDomain}`,
+        idpEntityId: `https://dummyidp.com/apps/${app!.id}`,
+        subjectId: `${values.email}@${app!.requiredDomain}`,
         firstName: values.firstName,
         lastName: values.lastName,
-        spEntityId: app.spEntityId,
+        spEntityId: app!.spEntityId,
         sessionId: sessionId,
         now: now.format(),
         expire: expire.format(),
       });
-      inputRef.current!.form!.action = app.spAcsUrl;
+      inputRef.current!.form!.action = app!.spAcsUrl;
       inputRef.current!.form!.submit();
     }, 1000);
   }
@@ -157,7 +156,7 @@ export function SSOPage() {
                             {...field}
                           />
                           <span className="inline-flex text-sm items-center rounded-r-md border border-l-0 border-input px-3 text-muted-foreground">
-                            @{app.requiredDomain}
+                            @{app!.requiredDomain}
                           </span>
                         </div>
                       </FormControl>

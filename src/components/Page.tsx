@@ -33,19 +33,14 @@ export function Page() {
 
   return (
     <div>
-      <div>
-        <div className="mx-auto max-w-6xl flex items-center gap-x-8">
-          <img alt="logo" src="/logo.png" className="h-20" />
-          <h1 className="text-sm text-muted-foreground">
-            DummyIDP is a dumbed-down Identity Provider you can use to test
-            Enterprise Single-Sign On for free.
-          </h1>
-        </div>
+      <div className="relative mx-auto max-w-7xl">
+        <div className="absolute -right-60 -top-44 h-60 w-[36rem] transform-gpu md:right-0 bg-[linear-gradient(115deg,var(--tw-gradient-stops))] from-[#fff1be] from-[28%] via-[#ee87cb] via-[70%] to-[#b060ff] rotate-[-10deg] rounded-full blur-3xl"></div>
       </div>
-      <div className="p-8">
-        <div className="mx-auto max-w-6xl">
-          <Outlet />
-        </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div></div>
+
+        <Outlet />
       </div>
     </div>
   );

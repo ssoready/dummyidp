@@ -38,6 +38,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv-cli": "^7.4.1",
@@ -67,5 +68,9 @@
     "uuid": "^9.0.1",
     "xml-formatter": "^3.6.2",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.658.1",
+    "@aws-sdk/lib-dynamodb": "^3.658.1"
   }
 }

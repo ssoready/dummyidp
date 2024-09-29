@@ -6,7 +6,7 @@ const define = {
   global: 'window',
   ...Object.fromEntries(
   Object.entries(process.env)
-    .filter(([k, _v]) => k.startsWith("APP_"))
+    .filter(([k, _v]) => k.startsWith("DUMMYIDP_"))
     .map(([k, v]) => [`process.env.${k}`, JSON.stringify(v)]),
 )}
 
