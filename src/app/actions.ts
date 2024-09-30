@@ -1,17 +1,12 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
 import { kv } from "@vercel/kv";
 import { redirect } from "next/navigation";
-
-export interface App {
-  id: string;
-  spAcsUrl?: string;
-  spEntityId?: string;
-}
+import { ulid } from "ulid";
+import { App } from "@/app/app";
 
 export async function createApp() {
-  const id = randomUUID();
+  const id = `app_${ulid().toLowerCase()}`;
   await kv.hset(id, { id });
   redirect(`/apps/${id}`);
 }
@@ -23,4 +18,8 @@ export async function getApp(id: string): Promise<App | undefined> {
   }
 
   return result as unknown as App;
+}
+
+export async function upsertApp(app: App): Promise<void> {
+  await kv.hset(app.id, app);
 }
