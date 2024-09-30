@@ -26,6 +26,8 @@ import { SPSettingsForm } from "@/app/apps/[id]/SPSettingsForm";
 import { ap } from "@upstash/redis/zmscore-uDFFyCiZ";
 import { GradientBackground } from "@/components/GradientBackground";
 import { UsersSettingsForm } from "@/app/apps/[id]/UsersSettingsForm";
+import { Button } from "@/components/ui/button";
+import { SimulateLoginButton } from "@/app/apps/[id]/SimulateLoginButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const app = await getApp(params.id);
@@ -57,7 +59,10 @@ export default async function Page({ params }: { params: { id: string } }) {
             </BreadcrumbList>
           </Breadcrumb>
 
-          <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+            <SimulateLoginButton app={app} />
+          </div>
 
           <div className="mt-8 grid grid-cols-2 gap-4">
             <Card>
@@ -120,8 +125,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             </Card>
             <Card className="col-span-2">
               <CardHeader>
-                <CardTitle>Users</CardTitle>
-                <CardDescription>users</CardDescription>
+                <CardTitle>
+                  Users
+                  <DocsLink to="https://ssoready.com/docs" />
+                </CardTitle>
+                <CardDescription>
+                  You can simulate SAML logins from this list of users.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <UsersSettingsForm app={app} />
