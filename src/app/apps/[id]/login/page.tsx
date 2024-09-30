@@ -21,14 +21,16 @@ export default async function Page({
   searchParams,
 }: {
   params: { id: string };
-  searchParams?: { SAMLRequest: string };
+  searchParams: { SAMLRequest: string };
 }) {
   const app = await getApp(params.id);
   if (app === undefined) {
     return <h1>not found</h1>;
   }
 
-  const samlRequest = searchParams ? atob(searchParams.SAMLRequest) : "";
+  const samlRequest = searchParams.SAMLRequest
+    ? atob(searchParams.SAMLRequest)
+    : "";
 
   return (
     <div>

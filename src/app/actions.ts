@@ -7,7 +7,17 @@ import { App } from "@/app/app";
 
 export async function createApp() {
   const id = `app_${ulid().toLowerCase()}`;
-  await kv.hset(id, { id });
+  await kv.hset(id, {
+    id,
+    users: [
+      { email: "john.doe@example.com", firstName: "John", lastName: "Doe" },
+      {
+        email: "abraham.lincoln@example.com",
+        firstName: "Abraham",
+        lastName: "Lincoln",
+      },
+    ],
+  });
   redirect(`/apps/${id}`);
 }
 

@@ -2,7 +2,6 @@ export type App = {
   id: string;
   spAcsUrl?: string;
   spEntityId?: string;
-  domain?: string;
   users?: AppUser[];
 };
 
