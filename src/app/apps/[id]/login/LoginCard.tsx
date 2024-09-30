@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { LoginForm } from "@/app/apps/[id]/login/LoginForm";
 import Link from "next/link";
 import {
@@ -13,6 +19,7 @@ import { XmlCodeBlock } from "@/components/XmlCodeBlock";
 import formatXml from "xml-formatter";
 import { App } from "@/app/app";
 import { useState } from "react";
+import { DocsLink } from "@/components/DocsLink";
 
 export default function LoginCard({
   app,
@@ -28,6 +35,11 @@ export default function LoginCard({
       <Card className="mt-8 mx-auto max-w-2xl">
         <CardHeader>
           <CardTitle>Log in</CardTitle>
+          <CardDescription>
+            In a "real" IDP, this is the page where your customer puts in their
+            corporate username and password.
+            <DocsLink to="https://ssoready.com/docs" />
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {app.users.length > 0 ? (

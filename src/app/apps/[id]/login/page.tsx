@@ -51,7 +51,7 @@ export default async function Page({
             </BreadcrumbList>
           </Breadcrumb>
 
-          <h1 className="mt-2 text-3xl font-semibold">Log in via SAML</h1>
+          <h1 className="mt-2 text-3xl font-semibold">Simulate SAML login</h1>
           <LoginCard app={app} samlRequest={samlRequest} />
         </div>
       </div>
