@@ -1,4 +1,5 @@
 import CreateAppButton from "@/components/CreateAppButton";
+import Navbar from "@/components/Navbar";
 
 export default function Page() {
   return (
@@ -7,6 +8,10 @@ export default function Page() {
 
       <div className="relative px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-7xl">
+          <div className="pt-12">
+            <Navbar />
+          </div>
+
           <div className="pb-24 pt-16 sm:pb-32 sm:pt-24 md:pb-48 md:pt-32">
             <h1 className="font-display text-balance text-6xl/[0.9] font-medium tracking-tight text-gray-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]">
               SAML made easy

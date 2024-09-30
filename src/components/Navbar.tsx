@@ -1,5 +1,7 @@
 import { PlusGridItem, PlusGridRow } from "@/components/PlusGrid";
 import Link from "next/link";
+import Image from "next/image";
+import wordmark from "@/wordmark.svg";
 
 const links = [
   { href: "https://ssoready.com", label: "Docs" },
@@ -30,9 +32,13 @@ export default function Navbar({ banner }: { banner?: string }) {
         <div>
           <PlusGridRow className="relative flex justify-between">
             <div className="relative flex gap-6">
-              <PlusGridItem className="py-3">
+              <PlusGridItem className="items-center flex">
                 <Link href="/" title="Home">
-                  logo here
+                  <Image
+                    src={wordmark}
+                    alt="wordmark"
+                    className="h-12 w-auto"
+                  />
                 </Link>
               </PlusGridItem>
               {banner && (
