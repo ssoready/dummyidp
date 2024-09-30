@@ -15,6 +15,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { LoginForm } from "@/app/apps/[id]/login/LoginForm";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -36,6 +38,7 @@ export default async function Page({
     <div>
       <GradientBackground />
       <Navbar />
+
       <div className="px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb className="mt-8">
@@ -62,18 +65,47 @@ export default async function Page({
             <CardHeader>
               <CardTitle>Log in</CardTitle>
             </CardHeader>
-            <CardContent>log in dude</CardContent>
+            <CardContent>
+              {app.users.length > 0 ? (
+                <LoginForm app={app} samlRequest={samlRequest} />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Cannot log in with SAML, because this application doesn't have
+                  any users.{" "}
+                  <Link
+                    href={`/apps/${params.id}`}
+                    className="underline decoration-2"
+                  >
+                    Edit this application
+                  </Link>{" "}
+                  to add users, and then try here again.
+                </p>
+              )}
+            </CardContent>
           </Card>
 
           <Accordion className="mt-8 mx-auto max-w-2xl" type="multiple">
             <AccordionItem value="saml-request-details">
-              <AccordionTrigger>SAML Request Details</AccordionTrigger>
+              <AccordionTrigger>
+                Service Provider AuthnRequest Details
+              </AccordionTrigger>
               <AccordionContent>
-                Here are details on the request DummyIDP received from your
-                application.
-                <code>
-                  <pre>{samlRequest}</pre>
-                </code>
+                {samlRequest ? (
+                  <>
+                    <p>
+                      Here are details on the request DummyIDP received from
+                      your application.
+                    </p>
+                    <code>
+                      <pre>{samlRequest}</pre>
+                    </code>
+                  </>
+                ) : (
+                  <p>
+                    This is an IDP-initiated SAML login. AuthnRequests only
+                    apply to SP-initiated SAML logins.
+                  </p>
+                )}
               </AccordionContent>
             </AccordionItem>
           </Accordion>

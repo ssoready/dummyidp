@@ -1,8 +1,8 @@
 export type App = {
   id: string;
+  users: AppUser[];
   spAcsUrl?: string;
   spEntityId?: string;
-  users?: AppUser[];
 };
 
 export type AppUser = {
