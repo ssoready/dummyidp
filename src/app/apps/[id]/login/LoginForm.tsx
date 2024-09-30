@@ -32,6 +32,8 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { encodeAssertion } from "@/lib/saml";
 import moment from "moment";
+import { XmlCodeBlock } from "@/components/XmlCodeBlock";
+import formatXml from "xml-formatter";
 
 const FormSchema = z.object({
   userIndex: z.string({
@@ -120,10 +122,7 @@ export function LoginForm({
       </form>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className="w-2/3 space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="userIndex"
@@ -161,7 +160,18 @@ export function LoginForm({
       <Accordion className="mt-8 mx-auto max-w-2xl" type="multiple">
         <AccordionItem value="saml-request-details">
           <AccordionTrigger>SAML Assertion Preview</AccordionTrigger>
-          <AccordionContent>{atob(assertion)}</AccordionContent>
+          <AccordionContent>
+            <p>
+              A preview of the SAML assertion DummyIDP is going to send to your
+              application.
+            </p>
+
+            {assertion && (
+              <div className="mt-4">
+                <XmlCodeBlock code={formatXml(atob(assertion))} />
+              </div>
+            )}
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
     </div>

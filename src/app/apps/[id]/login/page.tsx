@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/accordion";
 import { LoginForm } from "@/app/apps/[id]/login/LoginForm";
 import Link from "next/link";
+import { XmlCodeBlock } from "@/components/XmlCodeBlock";
+import formatXml from "xml-formatter";
 
 export default async function Page({
   params,
@@ -96,9 +98,10 @@ export default async function Page({
                       Here are details on the request DummyIDP received from
                       your application.
                     </p>
-                    <code>
-                      <pre>{samlRequest}</pre>
-                    </code>
+
+                    <div className="mt-4">
+                      <XmlCodeBlock code={formatXml(samlRequest)} />
+                    </div>
                   </>
                 ) : (
                   <p>
