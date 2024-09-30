@@ -19,28 +19,35 @@ import { upsertApp } from "@/app/actions";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  spAcsUrl: z.string().min(1, {
-    message: "Service Provider ACS URL is required.",
+  domain: z.string().min(1, {
+    message: "App domain is required.",
   }),
-  spEntityId: z.string().min(1, {
-    message: "Service Provider Entity ID is required.",
-  }),
+  users: z.array(
+    z.object({
+      email: z
+        .string()
+        .min(1, { message: "Email is required" })
+        .email({ message: "Email must be a valid email" }),
+      firstName: z.string().min(1, { message: "First name is required" }),
+      lastName: z.string().min(1, { message: "Last name is required" }),
+    }),
+  ),
 });
 
-export function SPSettingsForm({ app }: { app: App }) {
+export function UsersSettingsForm({ app }: { app: App }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      spAcsUrl: app.spAcsUrl ?? "",
-      spEntityId: app.spEntityId ?? "",
+      domain: app.domain ?? "",
+      users: app.users ?? [],
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await upsertApp({
-      id: app.id,
-      spAcsUrl: values.spAcsUrl,
-      spEntityId: values.spEntityId,
+      ...app,
+      domain: values.domain,
+      users: values.users,
     });
 
     toast.success("App SP settings updated");
@@ -51,32 +58,19 @@ export function SPSettingsForm({ app }: { app: App }) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="spAcsUrl"
+          name="domain"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>SP ACS URL</FormLabel>
+              <FormLabel>Domain</FormLabel>
               <FormControl>
-                <Input placeholder="https://..." {...field} />
+                <Input placeholder="example.com" {...field} />
               </FormControl>
-              {/*<FormDescription>sp acs url</FormDescription>*/}
+              <FormDescription>application domain</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="spEntityId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>SP Entity ID</FormLabel>
-              <FormControl>
-                <Input placeholder="https://..." {...field} />
-              </FormControl>
-              {/*<FormDescription>sp acs url</FormDescription>*/}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "Saving" : "Save"}
         </Button>

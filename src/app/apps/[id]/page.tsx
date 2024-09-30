@@ -24,6 +24,8 @@ import { useMemo } from "react";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { SPSettingsForm } from "@/app/apps/[id]/SPSettingsForm";
 import { ap } from "@upstash/redis/zmscore-uDFFyCiZ";
+import { GradientBackground } from "@/components/GradientBackground";
+import { UsersSettingsForm } from "@/app/apps/[id]/UsersSettingsForm";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const app = await getApp(params.id);
@@ -57,8 +59,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
 
-          <div className="grid grid-cols-2 gap-x-4">
-            <Card className="mt-8">
+          <div className="mt-8 grid grid-cols-2 gap-4">
+            <Card>
               <CardHeader>
                 <CardTitle>
                   SAML IDP Settings
@@ -100,7 +102,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </div>
               </CardContent>
             </Card>
-            <Card className="mt-8">
+            <Card>
               <CardHeader>
                 <CardTitle>
                   SAML SP Settings
@@ -116,21 +118,18 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <SPSettingsForm app={app} />
               </CardContent>
             </Card>
+            <Card className="col-span-2">
+              <CardHeader>
+                <CardTitle>Users</CardTitle>
+                <CardDescription>users</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <UsersSettingsForm app={app} />
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function GradientBackground() {
-  return (
-    <div className="relative mx-auto max-w-7xl">
-      <div
-        className={
-          "absolute -right-60 -top-44 h-60 w-[36rem] transform-gpu md:right-0 bg-[linear-gradient(115deg,var(--tw-gradient-stops))] from-[#fff1be] from-[28%] via-[#ee87cb] via-[70%] to-[#b060ff] rotate-[-10deg] rounded-full blur-3xl"
-        }
-      />
     </div>
   );
 }

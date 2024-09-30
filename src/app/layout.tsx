@@ -1,9 +1,8 @@
-import "./globals.css";
-
-// @ts-ignore
-import styles from "./global.css";
-
 import { Inter, Roboto_Mono } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
+
+import "./globals.css";
+import { Footer } from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +28,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${roboto_mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+        <Toaster />
+      </body>
     </html>
   );
 }
