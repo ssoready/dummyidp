@@ -44,9 +44,11 @@ const FormSchema = z.object({
 export function LoginForm({
   app,
   samlRequest,
+  onAssertionChange,
 }: {
   app: App;
   samlRequest: string;
+  onAssertionChange: (assertion: string) => void;
 }) {
   const sessionId = useMemo(() => {
     if (samlRequest === "") {
@@ -72,11 +74,13 @@ export function LoginForm({
   });
 
   const userIndex = form.watch("userIndex");
+  const user = useMemo(() => {
+    return app.users[parseInt(userIndex)];
+  }, [app, userIndex]);
+
   const [assertion, setAssertion] = useState("");
   useEffect(() => {
     (async () => {
-      const user = app.users[parseInt(userIndex)];
-
       const key = await window.crypto.subtle.importKey(
         "jwk",
         JSON.parse(
@@ -107,6 +111,10 @@ export function LoginForm({
       );
     })();
   }, [userIndex]);
+
+  useEffect(() => {
+    onAssertionChange(assertion);
+  }, [assertion]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   function handleSubmit(data: z.infer<typeof FormSchema>) {
@@ -153,27 +161,9 @@ export function LoginForm({
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Proceed as {user.email}</Button>
         </form>
       </Form>
-
-      <Accordion className="mt-8 mx-auto max-w-2xl" type="multiple">
-        <AccordionItem value="saml-request-details">
-          <AccordionTrigger>SAML Assertion Preview</AccordionTrigger>
-          <AccordionContent>
-            <p>
-              A preview of the SAML assertion DummyIDP is going to send to your
-              application.
-            </p>
-
-            {assertion && (
-              <div className="mt-4">
-                <XmlCodeBlock code={formatXml(atob(assertion))} />
-              </div>
-            )}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
     </div>
   );
 }
