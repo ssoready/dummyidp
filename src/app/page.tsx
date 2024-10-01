@@ -8,7 +8,7 @@ export default function Page() {
 
       <div className="relative px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-7xl">
-          <div className="pt-12">
+          <div className="-ml-6 pt-12">
             <Navbar />
           </div>
 
@@ -17,8 +17,8 @@ export default function Page() {
               SAML made easy
             </h1>
             <p className="mt-8 max-w-lg text-xl/7 font-medium text-gray-950/75 sm:text-2xl/8">
-              DummyIDP lets you test SAML without setting up a full-blown
-              identity provider
+              DummyIDP lets you test SAML and SCIM without setting up a
+              full-blown identity provider
             </p>
             <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
               <CreateAppButton />
