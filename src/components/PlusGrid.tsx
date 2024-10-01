@@ -1,6 +1,13 @@
 import clsx from "clsx";
+import React from "react";
 
-export function PlusGridRow({ className = "", children }) {
+export function PlusGridRow({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}): JSX.Element {
   return (
     <div
       className={clsx(
@@ -22,7 +29,13 @@ export function PlusGridRow({ className = "", children }) {
   );
 }
 
-export function PlusGridItem({ className = "", children }) {
+export function PlusGridItem({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div className={clsx(className, "group/item relative")}>
       <PlusGridIcon
@@ -43,7 +56,13 @@ export function PlusGridItem({ className = "", children }) {
   );
 }
 
-export function PlusGridIcon({ className = "", placement }) {
+export function PlusGridIcon({
+  className = "",
+  placement,
+}: {
+  className?: string;
+  placement: string;
+}) {
   let [yAxis, xAxis] = placement.split(" ");
 
   let yClass = yAxis === "top" ? "-top-2" : "-bottom-2";
