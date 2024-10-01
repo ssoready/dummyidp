@@ -9,6 +9,11 @@ import {
 import { getApp } from "@/app/actions";
 import { GradientBackground } from "@/components/GradientBackground";
 import LoginCard from "@/app/apps/[id]/login/LoginCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Simulate SAML Login",
+};
 
 export default async function Page({
   params,
@@ -47,7 +52,7 @@ export default async function Page({
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>Login</BreadcrumbItem>
+              <BreadcrumbItem>Simulate SAML Login</BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
 

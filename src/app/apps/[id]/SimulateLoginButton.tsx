@@ -51,8 +51,7 @@ export function SimulateLoginButton({ app }: { app: App }) {
       >
         {disabled && open && (
           <div className="pointer-events-none bg-black rounded-sm text-white text-xs max-w-[400px] p-2">
-            You can only simulate a login once you've configured an SP ACS URL
-            and SP Entity ID.
+            Configure SAML SP Settings first.
           </div>
         )}
       </div>

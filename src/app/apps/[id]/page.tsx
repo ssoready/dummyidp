@@ -29,6 +29,11 @@ import { UsersSettingsForm } from "@/app/apps/[id]/UsersSettingsForm";
 import { Button } from "@/components/ui/button";
 import { SimulateLoginButton } from "@/app/apps/[id]/SimulateLoginButton";
 import { SCIMSettingsForm } from "@/app/apps/[id]/SCIMSettingsForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "App",
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
   const app = await getApp(params.id);
