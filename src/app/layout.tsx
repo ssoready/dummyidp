@@ -31,6 +31,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${roboto_mono.variable}`}>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/css?f%5B%5D=switzer@400,500,600,700&amp;display=swap"
+        />
+      </head>
       <body>
         {children}
         <Footer />

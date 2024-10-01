@@ -32,7 +32,7 @@ export default async function Page({
     : "";
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <GradientBackground />
       <Navbar />
 

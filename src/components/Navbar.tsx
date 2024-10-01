@@ -2,6 +2,7 @@ import { PlusGridItem, PlusGridRow } from "@/components/PlusGrid";
 import Link from "next/link";
 import Image from "next/image";
 import wordmark from "@/wordmark.svg";
+import React from "react";
 
 const links = [
   { href: "https://ssoready.com", label: "Docs" },
@@ -15,7 +16,7 @@ function DesktopNav() {
         <PlusGridItem key={href} className="relative flex">
           <Link
             href={href}
-            className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-black/[2.5%]"
+            className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply hover:bg-black/[2.5%]"
           >
             {label}
           </Link>
@@ -25,7 +26,7 @@ function DesktopNav() {
   );
 }
 
-export default function Navbar({ banner }: { banner?: string }) {
+export default function Navbar({ banner }: { banner?: React.ReactNode }) {
   return (
     <div className="px-8">
       <div className="mx-auto max-w-7xl mt-12">

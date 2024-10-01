@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const certificateDownloadURL = `data:text/plain,${process.env.INSECURE_PUBLIC_CERTIFICATE}`;
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <GradientBackground />
       <Navbar />
       <div className="px-8">
