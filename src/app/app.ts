@@ -14,7 +14,7 @@ export type AppUser = {
 };
 
 export function appIdpEntityId(app: App): string {
-  return `https://${process.env.VERCEL_URL}/apps/${app.id}`;
+  return `https://dummyidp.com/apps/${app.id}`;
 }
 
 export function appIdpRedirectUrl(app: App): string {
