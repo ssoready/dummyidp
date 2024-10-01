@@ -19,31 +19,36 @@ import { upsertApp } from "@/app/actions";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  spAcsUrl: z.string().min(1, {
-    message: "Service Provider ACS URL is required.",
-  }),
-  spEntityId: z.string().min(1, {
-    message: "Service Provider Entity ID is required.",
+  scimBaseUrl: z
+    .string()
+    .min(1, {
+      message: "SCIM Base URL is required.",
+    })
+    .url({
+      message: "SCIM Base URL must be a valid URL.",
+    }),
+  scimBearerToken: z.string().min(1, {
+    message: "A SCIM Bearer Token is required.",
   }),
 });
 
-export function SPSettingsForm({ app }: { app: App }) {
+export function SCIMSettingsForm({ app }: { app: App }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      spAcsUrl: app.spAcsUrl ?? "",
-      spEntityId: app.spEntityId ?? "",
+      scimBaseUrl: app.scimBaseUrl ?? "",
+      scimBearerToken: app.scimBearerToken ?? "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await upsertApp({
       ...app,
-      spAcsUrl: values.spAcsUrl,
-      spEntityId: values.spEntityId,
+      scimBaseUrl: values.scimBaseUrl,
+      scimBearerToken: values.scimBearerToken,
     });
 
-    toast.success("App SP settings updated");
+    toast.success("App SCIM settings updated");
   }
 
   return (
@@ -51,10 +56,10 @@ export function SPSettingsForm({ app }: { app: App }) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="spAcsUrl"
+          name="scimBaseUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>SP ACS URL</FormLabel>
+              <FormLabel>SCIM Base URL</FormLabel>
               <FormControl>
                 <Input placeholder="https://..." {...field} />
               </FormControl>
@@ -65,10 +70,10 @@ export function SPSettingsForm({ app }: { app: App }) {
         />
         <FormField
           control={form.control}
-          name="spEntityId"
+          name="scimBearerToken"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>SP Entity ID</FormLabel>
+              <FormLabel>SCIM Bearer Token</FormLabel>
               <FormControl>
                 <Input placeholder="https://..." {...field} />
               </FormControl>

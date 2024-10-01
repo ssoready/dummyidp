@@ -28,6 +28,7 @@ import { GradientBackground } from "@/components/GradientBackground";
 import { UsersSettingsForm } from "@/app/apps/[id]/UsersSettingsForm";
 import { Button } from "@/components/ui/button";
 import { SimulateLoginButton } from "@/app/apps/[id]/SimulateLoginButton";
+import { SCIMSettingsForm } from "@/app/apps/[id]/SCIMSettingsForm";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const app = await getApp(params.id);
@@ -64,8 +65,8 @@ export default async function Page({ params }: { params: { id: string } }) {
             <SimulateLoginButton app={app} />
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            <Card>
+          <div className="mt-8 grid grid-cols-6 gap-4">
+            <Card className="col-span-3">
               <CardHeader>
                 <CardTitle>
                   SAML IDP Settings
@@ -107,7 +108,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="col-span-3">
               <CardHeader>
                 <CardTitle>
                   SAML SP Settings
@@ -126,11 +127,26 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Card className="col-span-2">
               <CardHeader>
                 <CardTitle>
+                  SCIM Settings
+                  <DocsLink to="https://ssoready.com/docs" />
+                </CardTitle>
+                <CardDescription>
+                  Settings for directory syncing over SCIM. Optional.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SCIMSettingsForm app={app} />
+              </CardContent>
+            </Card>
+            <Card className="col-span-4">
+              <CardHeader>
+                <CardTitle>
                   Users
                   <DocsLink to="https://ssoready.com/docs" />
                 </CardTitle>
                 <CardDescription>
-                  You can simulate SAML logins from this list of users.
+                  You can simulate SAML logins from this list of users. They'll
+                  be synced over SCIM if you've configured it.
                 </CardDescription>
               </CardHeader>
               <CardContent>

@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",

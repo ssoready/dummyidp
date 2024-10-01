@@ -3,6 +3,8 @@ export type App = {
   users: AppUser[];
   spAcsUrl?: string;
   spEntityId?: string;
+  scimBaseUrl?: string;
+  scimBearerToken?: string;
 };
 
 export type AppUser = {
