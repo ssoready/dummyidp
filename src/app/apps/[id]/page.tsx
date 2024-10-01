@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { SimulateLoginButton } from "@/app/apps/[id]/SimulateLoginButton";
 import { SCIMSettingsForm } from "@/app/apps/[id]/SCIMSettingsForm";
 import { Metadata } from "next";
+import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
 
 export const metadata: Metadata = {
   title: "App",
@@ -41,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return <h1>not found</h1>;
   }
 
-  const certificateDownloadURL = `data:text/plain,${process.env.INSECURE_PUBLIC_CERTIFICATE}`;
+  const certificateDownloadURL = `data:text/plain,${INSECURE_PUBLIC_CERTIFICATE}`;
 
   return (
     <div className="overflow-hidden">

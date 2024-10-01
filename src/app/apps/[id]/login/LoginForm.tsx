@@ -34,6 +34,7 @@ import { encodeAssertion } from "@/lib/saml";
 import moment from "moment";
 import { XmlCodeBlock } from "@/components/XmlCodeBlock";
 import formatXml from "xml-formatter";
+import { INSECURE_PRIVATE_KEY } from "@/lib/insecure-cert";
 
 const FormSchema = z.object({
   userIndex: z.string({
@@ -83,9 +84,7 @@ export function LoginForm({
     (async () => {
       const key = await window.crypto.subtle.importKey(
         "jwk",
-        JSON.parse(
-          atob(process.env.NEXT_PUBLIC_INSECURE_PRIVATE_KEY as string),
-        ),
+        JSON.parse(atob(INSECURE_PRIVATE_KEY)),
         {
           name: "RSASSA-PKCS1-v1_5",
           hash: "SHA-256",
