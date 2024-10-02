@@ -5,7 +5,8 @@ import wordmark from "@/wordmark.svg";
 import React from "react";
 
 const links = [
-  { href: "https://ssoready.com", label: "Docs" },
+  { href: "https://ssoready.com/docs/dummyidp", label: "Docs" },
+  { href: "https://github.com/ssoready/dummyidp", label: "GitHub" },
   { href: "https://ssoready.com", label: "SSOReady" },
 ];
 

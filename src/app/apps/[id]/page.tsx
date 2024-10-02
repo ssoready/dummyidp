@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               <CardHeader>
                 <CardTitle>
                   SAML IDP Settings
-                  <DocsLink to="https://ssoready.com/docs/dummyidp#app-saml-idp-settings" />
+                  <DocsLink to="https://ssoready.com/docs/dummyidp#idp-settings" />
                 </CardTitle>
                 <CardDescription>
                   These are SAML settings that identity providers (DummyIDP, in
@@ -118,7 +118,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               <CardHeader>
                 <CardTitle>
                   SAML SP Settings
-                  <DocsLink to="https://ssoready.com/docs/dummyidp#app-saml-sp-settings" />
+                  <DocsLink to="https://ssoready.com/docs/dummyidp#sp-settings" />
                 </CardTitle>
                 <CardDescription>
                   These are SAML settings assigned by the service provider
@@ -134,7 +134,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               <CardHeader>
                 <CardTitle>
                   SCIM Settings
-                  <DocsLink to="https://ssoready.com/docs" />
+                  <DocsLink to="https://ssoready.com/docs/dummyidp#scim-settings" />
                 </CardTitle>
                 <CardDescription>
                   Settings for directory syncing over SCIM. Optional.
@@ -148,7 +148,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               <CardHeader>
                 <CardTitle>
                   Users
-                  <DocsLink to="https://ssoready.com/docs" />
+                  <DocsLink to="https://ssoready.com/docs/dummyidp#users-settings" />
                 </CardTitle>
                 <CardDescription>
                   You can simulate SAML logins from this list of users. They'll

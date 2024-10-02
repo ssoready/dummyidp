@@ -38,7 +38,7 @@ export default function LoginCard({
           <CardDescription>
             In a "real" IDP, this is the page where your customer puts in their
             corporate username and password.
-            <DocsLink to="https://ssoready.com/docs" />
+            <DocsLink to="https://ssoready.com/docs/dummyidp#simulating-saml-logins" />
           </CardDescription>
         </CardHeader>
         <CardContent>
