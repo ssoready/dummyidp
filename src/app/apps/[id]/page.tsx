@@ -67,7 +67,14 @@ export default async function Page({ params }: { params: { id: string } }) {
           </Breadcrumb>
 
           <div className="flex items-center justify-between">
-            <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+            <div>
+              <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+              <p className="mt-1 text-muted-foreground">
+                A DummyIDP app lets you emulate your customer's identity
+                provider.
+                <DocsLink to="https://ssoready.com/docs/dummyidp#creating-a-dummyidp-app" />
+              </p>
+            </div>
             <SimulateLoginButton app={app} />
           </div>
 

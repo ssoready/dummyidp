@@ -10,6 +10,7 @@ import { getApp } from "@/app/actions";
 import { GradientBackground } from "@/components/GradientBackground";
 import LoginCard from "@/app/apps/[id]/login/LoginCard";
 import { Metadata } from "next";
+import { DocsLink } from "@/components/DocsLink";
 
 export const metadata: Metadata = {
   title: "Simulate SAML Login",
@@ -57,6 +58,12 @@ export default async function Page({
           </Breadcrumb>
 
           <h1 className="mt-2 text-3xl font-semibold">Simulate SAML login</h1>
+          <p className="mt-1 text-muted-foreground">
+            Simulate a SAML login as any user you've configured on this DummyIDP
+            app.
+            <DocsLink to="https://ssoready.com/docs/dummyidp#simulating-saml-logins" />
+          </p>
+
           <LoginCard app={app} samlRequest={samlRequest} />
         </div>
       </div>
