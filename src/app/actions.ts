@@ -4,7 +4,6 @@ import { kv } from "@vercel/kv";
 import { redirect } from "next/navigation";
 import { ulid } from "ulid";
 import { App } from "@/app/app";
-import { list } from "postcss";
 
 export async function createApp() {
   const id = `app_${ulid().toLowerCase()}`;
