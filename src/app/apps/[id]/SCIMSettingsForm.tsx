@@ -63,7 +63,6 @@ export function SCIMSettingsForm({ app }: { app: App }) {
               <FormControl>
                 <Input placeholder="https://..." {...field} />
               </FormControl>
-              {/*<FormDescription>sp acs url</FormDescription>*/}
               <FormMessage />
             </FormItem>
           )}
@@ -75,9 +74,8 @@ export function SCIMSettingsForm({ app }: { app: App }) {
             <FormItem>
               <FormLabel>SCIM Bearer Token</FormLabel>
               <FormControl>
-                <Input placeholder="https://..." {...field} />
+                <Input placeholder="..." {...field} />
               </FormControl>
-              {/*<FormDescription>sp acs url</FormDescription>*/}
               <FormMessage />
             </FormItem>
           )}
