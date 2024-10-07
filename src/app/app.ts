@@ -18,5 +18,5 @@ export function appIdpEntityId(app: App): string {
 }
 
 export function appIdpRedirectUrl(app: App): string {
-  return `https://${process.env.VERCEL_URL}/apps/${app.id}/sso`;
+  return `https://${process.env.DUMMYIDP_CUSTOM_DOMAIN || process.env.VERCEL_URL}/apps/${app.id}/sso`;
 }
