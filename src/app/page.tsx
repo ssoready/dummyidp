@@ -66,7 +66,7 @@ export default function Page() {
               title="Real SAML Assertions"
               description="DummyIDP behaves just like the SAML IDPs your customers use. Your app receives the same SAML protocol messages."
               graphic={
-                <div className="h-80 bg-[url(/screenshots/profile.png)] bg-[size:1000px_560px] bg-[left_-109px_top_-112px] bg-no-repeat" />
+                <div className="h-80 bg-[url(/DummyIDP-Assertion.xml.png)] bg-cover" />
               }
               fade={["bottom"]}
               className="max-lg:rounded-t-4xl lg:col-span-3 lg:rounded-tl-4xl"
@@ -77,7 +77,7 @@ export default function Page() {
               title="Real SCIM HTTP Requests"
               description="DummyIDP sends you the same SCIM HTTP requests you'd get from your customer's IDP. Quickly verify your app's automatic user (de)provisioning logic."
               graphic={
-                <div className="h-80 bg-[url(/screenshots/profile.png)] bg-[size:1000px_560px] bg-[left_-109px_top_-112px] bg-no-repeat" />
+                <div className="h-80 bg-[url(/SCIM-Request.http.png)] bg-cover" />
               }
               fade={["bottom"]}
               className="lg:col-span-3 lg:rounded-tr-4xl"
