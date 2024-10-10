@@ -1,4 +1,6 @@
-import CreateAppButton from "@/components/CreateAppButton";
+import CreateAppButton, {
+  InlineCreateAppLink,
+} from "@/components/CreateAppButton";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
@@ -85,7 +87,17 @@ export default function Page() {
             <BentoCard
               eyebrow="Simple"
               title="No needless complexity"
-              description="No need to talk to sales or give us your email. Just create an app and get going."
+              description={
+                <span>
+                  No need to talk to sales or give us your email. Just{" "}
+                  <InlineCreateAppLink>
+                    <span className="underline underline-offset-2 decoration-gray-300">
+                      create an app
+                    </span>
+                  </InlineCreateAppLink>{" "}
+                  and get going.
+                </span>
+              }
               className="lg:col-span-2 lg:rounded-bl-4xl"
             />
             <BentoCard
@@ -97,7 +109,19 @@ export default function Page() {
             <BentoCard
               eyebrow="FOSS"
               title="Free and open-source"
-              description="The DummyIDP.com service is free for anyone to use. You can self-host or fork us on GitHub."
+              description={
+                <span>
+                  The DummyIDP.com service is free for anyone to use. You can
+                  self-host or{" "}
+                  <a
+                    className="underline underline-offset-2 decoration-gray-300"
+                    href="https://github.com/ssoready/dummyidp"
+                  >
+                    fork us on GitHub
+                  </a>
+                  .
+                </span>
+              }
               className="max-lg:rounded-b-4xl lg:col-span-2 lg:rounded-br-4xl"
             />
           </div>

@@ -23,3 +23,15 @@ export default function CreateAppButton() {
     </div>
   );
 }
+
+export function InlineCreateAppLink({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return (
+    <span className="cursor-pointer" onClick={() => createApp()}>
+      {children}
+    </span>
+  );
+}
