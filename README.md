@@ -1,5 +1,7 @@
 # DummyIDP
 
+![](screenshot.png)
+
 [DummyIDP](https://ssoready.com/docs/dummyidp) is a website you can use to test
 your application's SAML and SCIM support end-to-end. From your application's
 perspective, it's exactly like the identity provider ("IDP") your customers use,
@@ -21,5 +23,6 @@ DummyIDP is a Next.js application. It is deployed in production on Vercel. You
 can hack on it yourself by running:
 
 ```bash
+npm install
 npm run dev
 ```
