@@ -19,7 +19,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import { DocsLink } from "@/components/DocsLink";
 import { Label } from "@/components/ui/label";
-import { appIdpEntityId, appIdpRedirectUrl } from "@/app/app";
+import {
+  appIdpEntityId,
+  appIdpMetadataUrl,
+  appIdpRedirectUrl,
+} from "@/app/app";
 import { useMemo } from "react";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { SPSettingsForm } from "@/app/apps/[id]/SPSettingsForm";
@@ -95,6 +99,13 @@ export default async function Page({ params }: { params: { id: string } }) {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-y-2">
+                  <div>
+                    <Label>IDP Metadata URL</Label>
+                    <div className="text-sm text-muted-foreground">
+                      {appIdpMetadataUrl(app)}
+                    </div>
+                  </div>
+
                   <div>
                     <Label>IDP Entity ID</Label>
                     <div className="text-sm text-muted-foreground">
