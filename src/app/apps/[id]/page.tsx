@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return <h1>not found</h1>;
   }
 
-  const certificateDownloadURL = `data:text/plain,${INSECURE_PUBLIC_CERTIFICATE}`;
+  const certificateDownloadURL = `data:text/plain;base64,${btoa(INSECURE_PUBLIC_CERTIFICATE)}`;
 
   return (
     <div className="overflow-hidden">
