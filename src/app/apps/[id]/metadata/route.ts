@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getApp } from "@/app/actions";
-import { appIdpEntityId, appIdpRedirectUrl } from "@/app/app";
+import { appIdpEntityId, appIdpRedirectUrl, appLoginUrl } from "@/app/app";
 import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
 
 export async function GET(
@@ -30,6 +30,7 @@ export async function GET(
     </md:KeyDescriptor>
     <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
     <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="${appIdpRedirectUrl(app!)}"/>
+    <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="${appLoginUrl(app!)}"/>
   </md:IDPSSODescriptor>
 </md:EntityDescriptor>`,
     {
