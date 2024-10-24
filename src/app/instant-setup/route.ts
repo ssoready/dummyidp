@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { upsertApp } from "@/app/actions";
 import { redirect } from "next/navigation";
+import { upsertApp } from "@/app/app";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

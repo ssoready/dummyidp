@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getApp } from "@/app/actions";
-import { appIdpEntityId, appIdpRedirectUrl, appLoginUrl } from "@/app/app";
+import {
+  appIdpEntityId,
+  appIdpRedirectUrl,
+  appLoginUrl,
+  getApp,
+} from "@/app/app";
 import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
 
 export async function GET(

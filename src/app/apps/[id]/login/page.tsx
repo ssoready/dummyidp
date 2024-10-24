@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import {
   Breadcrumb,
@@ -6,27 +8,21 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getApp } from "@/app/actions";
 import { GradientBackground } from "@/components/GradientBackground";
 import LoginCard from "@/app/apps/[id]/login/LoginCard";
 import { Metadata } from "next";
 import { DocsLink } from "@/components/DocsLink";
+import { useApp } from "@/app/hooks";
+import { getApp } from "@/app/app";
 
-export const metadata: Metadata = {
-  title: "Simulate SAML Login",
-};
-
-export default async function Page({
+export default function Page({
   params,
   searchParams,
 }: {
   params: { id: string };
   searchParams: { SAMLRequest: string };
 }) {
-  const app = await getApp(params.id);
-  if (app === undefined) {
-    return <h1>not found</h1>;
-  }
+  const app = useApp(params.id);
 
   const samlRequest = searchParams.SAMLRequest
     ? atob(searchParams.SAMLRequest)
@@ -48,8 +44,8 @@ export default async function Page({
               <BreadcrumbItem>Apps</BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/apps/${app.id}`}>
-                  {app.id}
+                <BreadcrumbLink href={`/apps/${app?.id}`}>
+                  {app?.id}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -64,7 +60,7 @@ export default async function Page({
             <DocsLink to="https://ssoready.com/docs/dummyidp#simulating-saml-logins" />
           </p>
 
-          <LoginCard app={app} samlRequest={samlRequest} />
+          {app && <LoginCard app={app} samlRequest={samlRequest} />}
         </div>
       </div>
     </div>

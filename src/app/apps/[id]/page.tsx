@@ -1,4 +1,5 @@
-import { getApp } from "@/app/actions";
+"use client";
+
 import { PlusGridItem, PlusGridRow } from "@/components/PlusGrid";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -36,16 +37,10 @@ import { SCIMSettingsForm } from "@/app/apps/[id]/SCIMSettingsForm";
 import { Metadata } from "next";
 import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
 import { Badge } from "@/components/ui/badge";
+import { useApp } from "@/app/hooks";
 
-export const metadata: Metadata = {
-  title: "App",
-};
-
-export default async function Page({ params }: { params: { id: string } }) {
-  const app = await getApp(params.id);
-  if (app === undefined) {
-    return <h1>not found</h1>;
-  }
+export default function Page({ params }: { params: { id: string } }) {
+  const app = useApp(params.id);
 
   const certificateDownloadURL = `data:text/plain;base64,${btoa(INSECURE_PUBLIC_CERTIFICATE)}`;
 
@@ -64,8 +59,8 @@ export default async function Page({ params }: { params: { id: string } }) {
               <BreadcrumbItem>Apps</BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/apps/${app.id}`}>
-                  {app.id}
+                <BreadcrumbLink href={`/apps/${app?.id}`}>
+                  {app?.id}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
@@ -73,14 +68,14 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+              <h1 className="mt-2 text-3xl font-semibold">{app?.id}</h1>
               <p className="mt-1 text-muted-foreground">
                 A DummyIDP app lets you emulate your customer's identity
                 provider.
                 <DocsLink to="https://ssoready.com/docs/dummyidp#creating-a-dummyidp-app" />
               </p>
             </div>
-            <SimulateLoginButton app={app} />
+            {app && <SimulateLoginButton app={app} />}
           </div>
 
           <div className="mt-8 grid grid-cols-6 gap-4">
@@ -102,21 +97,21 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <div>
                     <Label>IDP Metadata URL</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpMetadataUrl(app)}
+                      {app && appIdpMetadataUrl(app)}
                     </div>
                   </div>
 
                   <div>
                     <Label>IDP Entity ID</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpEntityId(app)}
+                      {app && appIdpEntityId(app)}
                     </div>
                   </div>
 
                   <div>
                     <Label>IDP Redirect URL</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpRedirectUrl(app)}
+                      {app && appIdpRedirectUrl(app)}
                     </div>
                   </div>
 
@@ -145,16 +140,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                   from your application into here.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <SPSettingsForm app={app} />
-              </CardContent>
+              <CardContent>{app && <SPSettingsForm app={app} />}</CardContent>
             </Card>
             <Card className="col-span-2">
               <CardHeader>
                 <CardTitle>
                   SCIM Settings
                   <DocsLink to="https://ssoready.com/docs/dummyidp#scim-settings" />
-                  {app.scimBaseUrl && app.scimBearerToken && (
+                  {app?.scimBaseUrl && app?.scimBearerToken && (
                     <Badge className="ml-4" variant="outline">
                       Syncing
                       <span className="ml-2 relative flex h-3 w-3">
@@ -168,9 +161,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   Settings for directory syncing over SCIM. Optional.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <SCIMSettingsForm app={app} />
-              </CardContent>
+              <CardContent>{app && <SCIMSettingsForm app={app} />}</CardContent>
             </Card>
             <Card className="col-span-4">
               <CardHeader>
@@ -184,7 +175,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <UsersSettingsForm app={app} />
+                {app && <UsersSettingsForm app={app} />}
               </CardContent>
             </Card>
           </div>
