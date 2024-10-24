@@ -24,3 +24,7 @@ export function appIdpRedirectUrl(app: App): string {
 export function appIdpMetadataUrl(app: App): string {
   return `https://${process.env.DUMMYIDP_CUSTOM_DOMAIN || process.env.VERCEL_URL}/apps/${app.id}/metadata`;
 }
+
+export function appLoginUrl(app: App): string {
+  return `https://${process.env.DUMMYIDP_CUSTOM_DOMAIN || process.env.VERCEL_URL}/apps/${app.id}/login`;
+}
