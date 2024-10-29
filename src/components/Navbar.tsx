@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import wordmark from "@/wordmark.svg";
 import React from "react";
-import { InlineCreateAppLink } from "@/components/CreateAppButton";
 
 const links = [
   { href: "https://ssoready.com/docs/dummyidp", label: "Docs" },
@@ -24,13 +23,6 @@ function DesktopNav() {
           </Link>
         </PlusGridItem>
       ))}
-      <PlusGridItem className="relative flex">
-        <InlineCreateAppLink>
-          <div className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply hover:bg-black/[2.5%]">
-            Create a DummyIDP App
-          </div>
-        </InlineCreateAppLink>
-      </PlusGridItem>
     </nav>
   );
 }

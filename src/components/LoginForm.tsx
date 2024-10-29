@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { App, appIdpEntityId, AppUser } from "@/app/app";
+import { App, appIdpEntityId, AppUser } from "@/lib/app";
 import {
   Accordion,
   AccordionContent,

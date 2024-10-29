@@ -1,9 +1,10 @@
 import { Inter, Roboto_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 
-import "./globals.css";
+import "@/pages/globals.css";
 import { Footer } from "@/components/Footer";
 import { Metadata } from "next";
+import React from "react";
 
 const inter = Inter({
   subsets: ["latin"],

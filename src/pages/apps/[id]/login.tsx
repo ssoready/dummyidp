@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,37 +5,22 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getApp } from "@/app/actions";
-import { GradientBackground } from "@/components/GradientBackground";
-import LoginCard from "@/app/apps/[id]/login/LoginCard";
-import { Metadata } from "next";
+import LoginCard from "@/components/LoginCard";
 import { DocsLink } from "@/components/DocsLink";
+import Layout from "@/components/Layout";
+import { useRouter } from "next/router";
+import { useApp } from "@/lib/hooks";
 
-export const metadata: Metadata = {
-  title: "Simulate SAML Login",
-};
+export default function Page() {
+  const router = useRouter();
+  const app = useApp(router.query.id as string);
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { SAMLRequest: string };
-}) {
-  const app = await getApp(params.id);
-  if (app === undefined) {
-    return <h1>not found</h1>;
-  }
-
-  const samlRequest = searchParams.SAMLRequest
-    ? atob(searchParams.SAMLRequest)
+  const samlRequest = router.query.SAMLRequest
+    ? atob(router.query.SAMLRequest as string)
     : "";
 
   return (
-    <div className="overflow-hidden">
-      <GradientBackground />
-      <Navbar />
-
+    <Layout>
       <div className="px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb className="mt-8">
@@ -48,8 +32,8 @@ export default async function Page({
               <BreadcrumbItem>Apps</BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/apps/${app.id}`}>
-                  {app.id}
+                <BreadcrumbLink href={`/apps/${app?.id}`}>
+                  {app?.id}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -64,9 +48,9 @@ export default async function Page({
             <DocsLink to="https://ssoready.com/docs/dummyidp#simulating-saml-logins" />
           </p>
 
-          <LoginCard app={app} samlRequest={samlRequest} />
+          {app && <LoginCard app={app} samlRequest={samlRequest} />}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

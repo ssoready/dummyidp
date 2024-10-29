@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardContent,
@@ -7,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LoginForm } from "@/app/apps/[id]/login/LoginForm";
+import { LoginForm } from "@/components/LoginForm";
 import Link from "next/link";
 import {
   Accordion,
@@ -17,7 +15,7 @@ import {
 } from "@/components/ui/accordion";
 import { XmlCodeBlock } from "@/components/XmlCodeBlock";
 import formatXml from "xml-formatter";
-import { App } from "@/app/app";
+import { App } from "@/lib/app";
 import { useState } from "react";
 import { DocsLink } from "@/components/DocsLink";
 

@@ -1,7 +1,6 @@
-import { getApp } from "@/app/actions";
-import { PlusGridItem, PlusGridRow } from "@/components/PlusGrid";
-import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import Layout from "@/components/Layout";
+import { useApp } from "@/lib/hooks";
+import { useRouter } from "next/router";
 import {
   Card,
   CardContent,
@@ -23,36 +22,21 @@ import {
   appIdpEntityId,
   appIdpMetadataUrl,
   appIdpRedirectUrl,
-} from "@/app/app";
-import { useMemo } from "react";
-import { ArrowDownToLineIcon } from "lucide-react";
-import { SPSettingsForm } from "@/app/apps/[id]/SPSettingsForm";
-import { ap } from "@upstash/redis/zmscore-uDFFyCiZ";
-import { GradientBackground } from "@/components/GradientBackground";
-import { UsersSettingsForm } from "@/app/apps/[id]/UsersSettingsForm";
-import { Button } from "@/components/ui/button";
-import { SimulateLoginButton } from "@/app/apps/[id]/SimulateLoginButton";
-import { SCIMSettingsForm } from "@/app/apps/[id]/SCIMSettingsForm";
-import { Metadata } from "next";
-import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
+} from "@/lib/app";
 import { Badge } from "@/components/ui/badge";
+import { SimulateLoginButton } from "@/components/SimulateLoginButton";
+import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
+import { SPSettingsForm } from "@/components/SPSettingsForm";
+import { SCIMSettingsForm } from "@/components/SCIMSettingsForm";
+import { UsersSettingsForm } from "@/components/UsersSettingsForm";
 
-export const metadata: Metadata = {
-  title: "App",
-};
-
-export default async function Page({ params }: { params: { id: string } }) {
-  const app = await getApp(params.id);
-  if (app === undefined) {
-    return <h1>not found</h1>;
-  }
-
+export default function Page() {
+  const router = useRouter();
+  const app = useApp(router.query.id as string);
   const certificateDownloadURL = `data:text/plain;base64,${btoa(INSECURE_PUBLIC_CERTIFICATE)}`;
 
   return (
-    <div className="overflow-hidden">
-      <GradientBackground />
-      <Navbar />
+    <Layout>
       <div className="px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb className="mt-8">
@@ -64,8 +48,8 @@ export default async function Page({ params }: { params: { id: string } }) {
               <BreadcrumbItem>Apps</BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/apps/${app.id}`}>
-                  {app.id}
+                <BreadcrumbLink href={`/apps/${app?.id}`}>
+                  {app?.id}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
@@ -73,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="mt-2 text-3xl font-semibold">{app.id}</h1>
+              <h1 className="mt-2 text-3xl font-semibold">{app?.id}</h1>
               <p className="mt-1 text-muted-foreground">
                 A DummyIDP app lets you emulate your customer's identity
                 provider.
@@ -102,21 +86,21 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <div>
                     <Label>IDP Metadata URL</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpMetadataUrl(app)}
+                      {app && appIdpMetadataUrl(app)}
                     </div>
                   </div>
 
                   <div>
                     <Label>IDP Entity ID</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpEntityId(app)}
+                      {app && appIdpEntityId(app)}
                     </div>
                   </div>
 
                   <div>
                     <Label>IDP Redirect URL</Label>
                     <div className="text-sm text-muted-foreground">
-                      {appIdpRedirectUrl(app)}
+                      {app && appIdpRedirectUrl(app)}
                     </div>
                   </div>
 
@@ -145,16 +129,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                   from your application into here.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <SPSettingsForm app={app} />
-              </CardContent>
+              <CardContent>{app && <SPSettingsForm app={app} />}</CardContent>
             </Card>
             <Card className="col-span-2">
               <CardHeader>
                 <CardTitle>
                   SCIM Settings
                   <DocsLink to="https://ssoready.com/docs/dummyidp#scim-settings" />
-                  {app.scimBaseUrl && app.scimBearerToken && (
+                  {app?.scimBaseUrl && app?.scimBearerToken && (
                     <Badge className="ml-4" variant="outline">
                       Syncing
                       <span className="ml-2 relative flex h-3 w-3">
@@ -168,9 +150,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   Settings for directory syncing over SCIM. Optional.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <SCIMSettingsForm app={app} />
-              </CardContent>
+              <CardContent>{app && <SCIMSettingsForm app={app} />}</CardContent>
             </Card>
             <Card className="col-span-4">
               <CardHeader>
@@ -184,12 +164,12 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <UsersSettingsForm app={app} />
+                {app && <UsersSettingsForm app={app} />}
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
