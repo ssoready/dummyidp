@@ -112,8 +112,8 @@ async function scimUserByEmail(
     headers: { Authorization: `Bearer ${app.scimBearerToken}` },
   });
   const listBody = await listResponse.json();
-  if (listBody?.Resources?.length > 0) {
-    return listBody.Resources[0].id;
+  if (listBody?.resources?.length > 0) {
+    return listBody.resources[0].id;
   }
   return undefined;
 }
