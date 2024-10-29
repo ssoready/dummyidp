@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { App, upsertApp } from "@/app/app";
+import { App } from "@/lib/app";
 import {
   Form,
   FormControl,
@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { useUpsertApp } from "@/app/hooks";
+import { useUpsertApp } from "@/lib/hooks";
 
 const formSchema = z.object({
   users: z.array(

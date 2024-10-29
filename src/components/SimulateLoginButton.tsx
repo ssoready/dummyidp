@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { App } from "@/app/app";
+import { App } from "@/lib/app";
 import {
   autoUpdate,
   offset,
@@ -12,10 +12,9 @@ import {
 } from "@floating-ui/react";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export function SimulateLoginButton({ app }: { app: App }) {
-  const disabled = !app.spAcsUrl || !app.spEntityId;
+export function SimulateLoginButton({ app }: { app: App | undefined }) {
+  const disabled = !app?.spAcsUrl || !app?.spEntityId;
 
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -35,7 +34,7 @@ export function SimulateLoginButton({ app }: { app: App }) {
       <div ref={refs.setReference} {...getReferenceProps()}>
         <Button asChild>
           <Link
-            href={`/apps/${app.id}/login`}
+            href={`/apps/${app?.id}/login`}
             aria-disabled={disabled}
             className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
           >

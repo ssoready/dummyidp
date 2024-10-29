@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { App, upsertApp } from "@/app/app";
+import { App } from "@/lib/app";
 import {
   Form,
   FormControl,
@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useUpsertApp } from "@/app/hooks";
+import { useUpsertApp } from "@/lib/hooks";
 
 const formSchema = z.object({
   scimBaseUrl: z
