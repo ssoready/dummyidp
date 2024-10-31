@@ -29,6 +29,7 @@ import { INSECURE_PUBLIC_CERTIFICATE } from "@/lib/insecure-cert";
 import { SPSettingsForm } from "@/components/SPSettingsForm";
 import { SCIMSettingsForm } from "@/components/SCIMSettingsForm";
 import { UsersSettingsForm } from "@/components/UsersSettingsForm";
+import Head from "next/head";
 
 export default function Page() {
   const router = useRouter();
@@ -37,6 +38,10 @@ export default function Page() {
 
   return (
     <Layout>
+      <Head>
+        <title>App | DummyIDP</title>
+      </Head>
+
       <div className="px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb className="mt-8">

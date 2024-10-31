@@ -10,6 +10,7 @@ import { DocsLink } from "@/components/DocsLink";
 import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import { useApp } from "@/lib/hooks";
+import Head from "next/head";
 
 export default function Page() {
   const router = useRouter();
@@ -21,6 +22,10 @@ export default function Page() {
 
   return (
     <Layout>
+      <Head>
+        <title>Simulate Login | DummyIDP</title>
+      </Head>
+
       <div className="px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb className="mt-8">
