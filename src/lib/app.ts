@@ -143,8 +143,12 @@ async function scimUserByEmail(
     headers: { Authorization: `Bearer ${app.scimBearerToken}` },
   });
   const listBody = await listResponse.json();
-  if (listBody?.Resources?.length > 0) {
-    return listBody.Resources[0].id;
+
+  // in practice, SCIM servers put the results into either `resources` or
+  // `Resources`
+  const resources = listBody?.resources ?? listBody?.Resources ?? []
+  if (resources.length > 0) {
+    return resources[0].id;
   }
   return undefined;
 }
