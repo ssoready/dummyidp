@@ -14,7 +14,9 @@ export async function encodeAssertion(
   key: CryptoKey,
   assertionData: AssertionData,
 ): Promise<string> {
-  return btoa(await signAssertion(key, assertionData));
+  // naively calling btoa does not correctly handle non-ASCII
+  const payload = await signAssertion(key, assertionData);
+  return btoa(String.fromCharCode(...new TextEncoder().encode(payload)));
 }
 
 async function signAssertion(
